@@ -30,8 +30,8 @@ void testApp::setup(){
 	OFX_REMOTEUI_SERVER_SHARE_PARAM(fov, 10, 120);
 	vector<string> l; l.push_back("SUN"); l.push_back("MERCURY"); l.push_back("VENUS");
 	l.push_back("EARTH"); l.push_back("MOON"); l.push_back("MARS");
-	l.push_back("JUPITER"); l.push_back("SATURN");
-	OFX_REMOTEUI_SERVER_SHARE_ENUM_PARAM(camTarget, 0, NUM_CAMERA_TARGETS-1,l );
+	l.push_back("JUPITER"); l.push_back("SATURN"); l.push_back("NONE");
+	OFX_REMOTEUI_SERVER_SHARE_ENUM_PARAM(camTarget, 0, NUM_CAMERA_TARGETS,l );
 
 	OFX_REMOTEUI_SERVER_SET_UPCOMING_PARAM_GROUP("FOG");
 	OFX_REMOTEUI_SERVER_SET_NEW_COLOR();
@@ -123,7 +123,7 @@ void testApp::setup(){
 	s.internalformat = GL_RGBA;
 	//	s.textureTarget = GL_TEXTURE_RECTANGLE_ARB;
 	s.maxFilter = GL_LINEAR; GL_NEAREST;
-	s.numSamples = 8;
+	s.numSamples = 4;
 	s.numColorbuffers = 3;
 	s.useDepth = true;
 	s.useStencil = false;
