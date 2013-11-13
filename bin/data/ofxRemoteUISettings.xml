@@ -1,0 +1,40 @@
+<OFX_REMOTE_UI_PARAMS>
+    <REMOTEUI_PARAM_BOOL paramName="drawPlanetTrails">1</REMOTEUI_PARAM_BOOL>
+    <REMOTEUI_PARAM_BOOL paramName="drawSatelliteTrails">1</REMOTEUI_PARAM_BOOL>
+    <REMOTEUI_PARAM_BOOL paramName="drawSatellites">1</REMOTEUI_PARAM_BOOL>
+    <REMOTEUI_PARAM_BOOL paramName="drawStars">1</REMOTEUI_PARAM_BOOL>
+    <REMOTEUI_PARAM_FLOAT paramName="earthOrbitSpeed">2.358667612</REMOTEUI_PARAM_FLOAT>
+    <REMOTEUI_PARAM_FLOAT paramName="earthRotationSpeed">5.886441708</REMOTEUI_PARAM_FLOAT>
+    <REMOTEUI_PARAM_BOOL paramName="fog">0</REMOTEUI_PARAM_BOOL>
+    <REMOTEUI_PARAM_FLOAT paramName="fogEnd">10000.000000000</REMOTEUI_PARAM_FLOAT>
+    <REMOTEUI_PARAM_FLOAT paramName="fogStart">0.000000000</REMOTEUI_PARAM_FLOAT>
+    <REMOTEUI_PARAM_FLOAT paramName="fov">25.941181183</REMOTEUI_PARAM_FLOAT>
+    <REMOTEUI_PARAM_FLOAT paramName="globalSpeed">1.000000000</REMOTEUI_PARAM_FLOAT>
+    <REMOTEUI_PARAM_FLOAT paramName="gpuBlur.blurOffset">3.422214746</REMOTEUI_PARAM_FLOAT>
+    <REMOTEUI_PARAM_INT paramName="gpuBlur.blurOverlayGain">255</REMOTEUI_PARAM_INT>
+    <REMOTEUI_PARAM_INT paramName="gpuBlur.blurPasses">2</REMOTEUI_PARAM_INT>
+    <REMOTEUI_PARAM_INT paramName="gpuBlur.numBlurOverlays">1</REMOTEUI_PARAM_INT>
+    <REMOTEUI_PARAM_FLOAT paramName="k_attenuation">0.208361953</REMOTEUI_PARAM_FLOAT>
+    <REMOTEUI_PARAM_FLOAT paramName="l_attenuation">0.000000000</REMOTEUI_PARAM_FLOAT>
+    <REMOTEUI_PARAM_FLOAT paramName="moonOrbitSpeed">11.309670448</REMOTEUI_PARAM_FLOAT>
+    <REMOTEUI_PARAM_FLOAT paramName="q_attenuation">0.000000000</REMOTEUI_PARAM_FLOAT>
+    <REMOTEUI_PARAM_COLOR paramName="starsColor">
+        <R>102</R>
+        <G>102</G>
+        <B>102</B>
+        <A>255</A>
+    </REMOTEUI_PARAM_COLOR>
+    <REMOTEUI_PARAM_COLOR paramName="sunColor">
+        <R>191</R>
+        <G>101</G>
+        <B>0</B>
+        <A>255</A>
+    </REMOTEUI_PARAM_COLOR>
+    <REMOTEUI_PARAM_COLOR paramName="sunLightColor">
+        <R>255</R>
+        <G>255</G>
+        <B>255</B>
+        <A>255</A>
+    </REMOTEUI_PARAM_COLOR>
+</OFX_REMOTE_UI_PARAMS>
+<OFX_REMOTE_UI_SERVER_PORT>45860</OFX_REMOTE_UI_SERVER_PORT>
