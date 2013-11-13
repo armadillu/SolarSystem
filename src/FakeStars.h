@@ -16,15 +16,16 @@ class FakeStars {
 public:
 	void setup(){
 
+		speedMult = 1;
 		ofLoadImage(tex, "stars.jpg");
 
 		for(int i = 0 ; i < NUM_LAYERS; i++){
 			ofSpherePrimitive *s = new ofSpherePrimitive();
-			s->set( 1000 + powf(i, 2) * 1000 , 20);
+			s->set( 3000 + powf(i, 2) * 1000 , 20);
 			s->mapTexCoordsFromTexture(tex);
 			s->rotate(ofRandom(0,360), ofVec3f(ofRandom(0,1),ofRandom(0,1),ofRandom(0,1)));
 			spheres.push_back(s);
-			rotSpeeds.push_back(0.01 * ofRandom(-1,1));
+			rotSpeeds.push_back( 0.3 * ofRandom(-1,1));
 			ofVec3f d = ofVec3f(ofRandom(1), ofRandom(1), ofRandom(1));
 			d.normalize();
 			rotDirs.push_back(d);
@@ -33,8 +34,12 @@ public:
 
 	void update(float dt){
 		for(int i = 0 ; i < NUM_LAYERS; i++){
-			spheres[i]->rotate( dt * ofGetElapsedTimef() * rotSpeeds[i], rotDirs[i]);
+			spheres[i]->rotate( speedMult * dt * rotSpeeds[i], rotDirs[i]);
 		}
+	}
+
+	void setSpeed(float s){
+		speedMult = s;
 	}
 
 	void draw(){
@@ -52,6 +57,7 @@ private:
 	vector<ofSpherePrimitive*> 	spheres;
 	vector<float> rotSpeeds;
 	vector<ofVec3f> rotDirs;
+	float speedMult;
 
 };
 

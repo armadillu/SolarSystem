@@ -12,7 +12,7 @@
 #include "ofMain.h"
 #include "Planet.h"
 
-#define MAX_SATELLITE_TRAIL	500
+#define MAX_SATELLITE_TRAIL	250
 
 class Planet;
 
@@ -36,13 +36,13 @@ public:
 		parentPlanet = parentPlanet_;
 
 		longitude = ofRandom(-180, 180);
-		latitude = ofRandom(89, -89);
+		latitude = ofRandom(90, -90);
 
-		longitudeSpeed = 3 *  ofRandom(-30,30);
+		longitudeSpeed =  ofRandom(-20,20);
 		latitudeSpeed = ofRandom(-10,10);
 
-		myColor = ofColor( ofRandom(255), ofRandom(255), ofRandom(255), 128);
-		this->setScale(0.2);
+		myColor = ofColor( ofRandom(255), ofRandom(255), ofRandom(255), 255);
+		this->setScale( ofRandom(0.02, 0.04));
 
 	}
 
@@ -71,15 +71,17 @@ public:
 	void draw(){
 		ofPushStyle();
 			ofSetColor(myColor);
-			plane1.drawWireframe();
-			plane2.drawWireframe();
-			cylinder.drawWireframe();
+			plane1.draw();
+			plane2.draw();
+			cylinder.draw();
 		ofPopStyle();
 	}
 
 	void drawTrails(){
 		ofPushStyle();
-		ofSetColor(myColor);
+		ofColor tempC = myColor;
+		tempC.a = 64;
+		ofSetColor(tempC);
 		ofMesh m;
 		m.addVertices(trails);
 		m.setMode(OF_PRIMITIVE_LINE_STRIP);

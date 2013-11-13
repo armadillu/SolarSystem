@@ -6,13 +6,16 @@
 #include "ofxRemoteUIServer.h"
 #include "FakeStars.h"
 #include "ofxFboBlur.h"
+#include "ofxTimeMeasurements.h"
 
-#define NUM_SATELLITES	3
+#define NUM_SATELLITES	90
 
 
 class testApp : public ofBaseApp{
 
 public:
+
+	enum CameraTarget {SUN = 0, MERCURY, VENUS, EARTH, MOON, MARS, JUPITER, SATURN,  NUM_CAMERA_TARGETS};
 
 	void setup();
 	void update();
@@ -49,8 +52,9 @@ public:
 
 
 	ofLight				sunLight;
-		ofColor				sunLightColor;
-		ofColor				sunColor;
+	ofColor				sunLightColor;
+	ofColor				sunLightAmbientColor;
+	ofColor				sunColor;
 	FakeStars			stars;
 	ofColor				starsColor;
 
@@ -60,21 +64,27 @@ public:
 	float				q_attenuation;
 
 	float				earthRotationSpeed;
+	float				earthRotation;
 	float				earthOrbitSpeed;
 	float				moonOrbitSpeed;
+	float				starsSpeed;
 	bool				fog;
 	bool				drawStars;
 	bool				drawSatellites;
 	bool				drawSatelliteTrails;
 	bool				drawPlanetTrails;
 
-	float fogEnd;
-	float fogStart;
+	bool				timeSample;
+	
+	float				fogEnd;
+	float				fogStart;
 
-	float fov;
+	float				fov;
 
-	float globalSpeed;
+	float				globalSpeed;
 
-	ofxFboBlur gpuBlur;
+	ofxFboBlur			gpuBlur;
+
+	CameraTarget		camTarget;
 
 };

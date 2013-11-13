@@ -28,6 +28,7 @@
 		BB0CFC0A18317DD10003400B /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BB0CFC0418317DD10003400B /* tinyxmlparser.cpp */; };
 		BB0CFC0B18317DD10003400B /* ofxXmlSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BB0CFC0618317DD10003400B /* ofxXmlSettings.cpp */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
+		BBC3F6C91833857E000DBA19 /* ofxTimeMeasurements.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BBC3F6C71833857E000DBA19 /* ofxTimeMeasurements.cpp */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E45BE97B0E8CC7DD009D7055 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9710E8CC7DD009D7055 /* AGL.framework */; };
 		E45BE97C0E8CC7DD009D7055 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9720E8CC7DD009D7055 /* ApplicationServices.framework */; };
@@ -132,6 +133,8 @@
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
 		BBB999E21832E14D004258CD /* ofxFboBlur.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxFboBlur.h; sourceTree = "<group>"; };
 		BBBEEC4918317659000AC606 /* Satellite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Satellite.h; sourceTree = "<group>"; };
+		BBC3F6C71833857E000DBA19 /* ofxTimeMeasurements.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxTimeMeasurements.cpp; sourceTree = "<group>"; };
+		BBC3F6C81833857E000DBA19 /* ofxTimeMeasurements.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxTimeMeasurements.h; sourceTree = "<group>"; };
 		BBC9E9561832A49500AB0602 /* Planet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Planet.h; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E45BE9710E8CC7DD009D7055 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
@@ -341,6 +344,7 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				BBC3F6C51833857E000DBA19 /* ofxTimeMeasurements */,
 				BBB999E01832E14D004258CD /* ofxFboBlur */,
 				BB0CFBFF18317DD10003400B /* ofxXmlSettings */,
 				BB0CFBC818317DC30003400B /* ofxOsc */,
@@ -394,6 +398,24 @@
 			);
 			name = src;
 			path = ../../../addons/ofxFboBlur/src;
+			sourceTree = "<group>";
+		};
+		BBC3F6C51833857E000DBA19 /* ofxTimeMeasurements */ = {
+			isa = PBXGroup;
+			children = (
+				BBC3F6C61833857E000DBA19 /* src */,
+			);
+			name = ofxTimeMeasurements;
+			sourceTree = "<group>";
+		};
+		BBC3F6C61833857E000DBA19 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				BBC3F6C71833857E000DBA19 /* ofxTimeMeasurements.cpp */,
+				BBC3F6C81833857E000DBA19 /* ofxTimeMeasurements.h */,
+			);
+			name = src;
+			path = ../../../addons/ofxTimeMeasurements/src;
 			sourceTree = "<group>";
 		};
 		E4328144138ABC890047C5CB /* Products */ = {
@@ -551,6 +573,7 @@
 				BB0CFBF718317DC30003400B /* OscPrintReceivedElements.cpp in Sources */,
 				BB0CFBF418317DC30003400B /* NetworkingUtils.cpp in Sources */,
 				BB0CFBFC18317DC30003400B /* ofxOscParameterSync.cpp in Sources */,
+				BBC3F6C91833857E000DBA19 /* ofxTimeMeasurements.cpp in Sources */,
 				BB0CFBC618317DB70003400B /* ofxRemoteUINeigbors.cpp in Sources */,
 				BB0CFBF618317DC30003400B /* OscOutboundPacketStream.cpp in Sources */,
 				BB0CFBF818317DC30003400B /* OscReceivedElements.cpp in Sources */,

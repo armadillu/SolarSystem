@@ -8,10 +8,11 @@ int main( ){
 	//ofSetCurrentRenderer(ofGLProgrammableRenderer::TYPE);
 
 	ofAppGLFWWindow win;
-	win.setNumSamples(4);
-	//win.setMultiDisplayFullscreen(true);
+	win.setNumSamples(8);
+	win.setMultiDisplayFullscreen(true);
 
-	ofSetupOpenGL(&win, 1024,690, OF_WINDOW);			// <-------- setup the GL context
+	//ofSetupOpenGL(&win, 1024,690, OF_WINDOW);
+	ofSetupOpenGL(&win, 1024,690, OF_FULLSCREEN);
 
 	// this kicks off the running of my app
 	// can be OF_WINDOW or OF_FULLSCREEN

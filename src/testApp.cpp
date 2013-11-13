@@ -3,7 +3,7 @@
 
 void testApp::setup(){
 
-	ofSetFrameRate(60);
+	ofSetFrameRate(65);
 	ofBackground(0);
 	glEnable(GL_POINT_SMOOTH);
 	glPointSize(2);
@@ -11,26 +11,33 @@ void testApp::setup(){
 
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
+	earthRotation = 0;
 
 	OFX_REMOTEUI_SERVER_SETUP();
 	OFX_REMOTEUI_SERVER_SET_NEW_COLOR();
 	OFX_REMOTEUI_SERVER_SET_UPCOMING_PARAM_GROUP("LIGHTING");
 	OFX_REMOTEUI_SERVER_SHARE_PARAM(k_attenuation, 0, 1.5);
-	OFX_REMOTEUI_SERVER_SHARE_PARAM(l_attenuation, 0, 1);
-	OFX_REMOTEUI_SERVER_SHARE_PARAM(q_attenuation, 0, 1);
-
-	OFX_REMOTEUI_SERVER_SET_UPCOMING_PARAM_GROUP("SUN");
+	OFX_REMOTEUI_SERVER_SHARE_PARAM(l_attenuation, 0, 0.02);
+	OFX_REMOTEUI_SERVER_SHARE_PARAM(q_attenuation, 0, 0.0002);
 	OFX_REMOTEUI_SERVER_SET_NEW_COLOR();
 	OFX_REMOTEUI_SERVER_SHARE_COLOR_PARAM(sunColor);
 	OFX_REMOTEUI_SERVER_SHARE_COLOR_PARAM(sunLightColor);
+	OFX_REMOTEUI_SERVER_SHARE_COLOR_PARAM(sunLightAmbientColor);
 
+
+	OFX_REMOTEUI_SERVER_SET_UPCOMING_PARAM_GROUP("CAMERA");
+	OFX_REMOTEUI_SERVER_SET_NEW_COLOR();
+	OFX_REMOTEUI_SERVER_SHARE_PARAM(fov, 10, 120);
+	vector<string> l; l.push_back("SUN"); l.push_back("MERCURY"); l.push_back("VENUS");
+	l.push_back("EARTH"); l.push_back("MOON"); l.push_back("MARS");
+	l.push_back("JUPITER"); l.push_back("SATURN");
+	OFX_REMOTEUI_SERVER_SHARE_ENUM_PARAM(camTarget, 0, NUM_CAMERA_TARGETS-1,l );
 
 	OFX_REMOTEUI_SERVER_SET_UPCOMING_PARAM_GROUP("FOG");
 	OFX_REMOTEUI_SERVER_SET_NEW_COLOR();
 	OFX_REMOTEUI_SERVER_SHARE_PARAM(fog);
 	OFX_REMOTEUI_SERVER_SHARE_PARAM(fogStart, 0, 2000);
 	OFX_REMOTEUI_SERVER_SHARE_PARAM(fogEnd, 1000, 10000);
-	OFX_REMOTEUI_SERVER_SHARE_PARAM(fov, 10, 120);
 
 	OFX_REMOTEUI_SERVER_SET_UPCOMING_PARAM_GROUP("TOGGLE DRAWS");
 	OFX_REMOTEUI_SERVER_SET_NEW_COLOR();
@@ -39,12 +46,17 @@ void testApp::setup(){
 	OFX_REMOTEUI_SERVER_SHARE_PARAM(drawSatellites);
 	OFX_REMOTEUI_SERVER_SHARE_PARAM(drawSatelliteTrails);
 	OFX_REMOTEUI_SERVER_SHARE_PARAM(drawPlanetTrails);
+	OFX_REMOTEUI_SERVER_SET_NEW_COLOR();
+	OFX_REMOTEUI_SERVER_SHARE_PARAM(timeSample);
+
 
 	OFX_REMOTEUI_SERVER_SET_UPCOMING_PARAM_GROUP("SPEEDS");
 	OFX_REMOTEUI_SERVER_SET_NEW_COLOR();
-	OFX_REMOTEUI_SERVER_SHARE_PARAM(earthRotationSpeed, -10.0, 10.0);
+	OFX_REMOTEUI_SERVER_SHARE_PARAM(globalSpeed, 0, 1);
+	OFX_REMOTEUI_SERVER_SHARE_PARAM(earthRotationSpeed, -50.0, 50.0);
 	OFX_REMOTEUI_SERVER_SHARE_PARAM(earthOrbitSpeed, 0.0, 5.0);
 	OFX_REMOTEUI_SERVER_SHARE_PARAM(moonOrbitSpeed, -50.0, 50.0);
+	OFX_REMOTEUI_SERVER_SHARE_PARAM(starsSpeed, -1, 1);
 
 	OFX_REMOTEUI_SERVER_SET_UPCOMING_PARAM_GROUP("BLUR OVERLAY");
 	OFX_REMOTEUI_SERVER_SET_NEW_COLOR();
@@ -54,8 +66,6 @@ void testApp::setup(){
 	OFX_REMOTEUI_SERVER_SHARE_PARAM(gpuBlur.numBlurOverlays, 0, 7);
 
 	OFX_REMOTEUI_SERVER_SET_NEW_COLOR();
-	OFX_REMOTEUI_SERVER_SHARE_PARAM(globalSpeed, 0, 1);
-
 
 
 	if(fog)glEnable(GL_FOG);
@@ -113,13 +123,13 @@ void testApp::setup(){
 	s.internalformat = GL_RGBA;
 	//	s.textureTarget = GL_TEXTURE_RECTANGLE_ARB;
 	s.maxFilter = GL_LINEAR; GL_NEAREST;
-	s.numSamples = 4;
+	s.numSamples = 8;
 	s.numColorbuffers = 3;
 	s.useDepth = true;
 	s.useStencil = false;
 
 	gpuBlur.setup(s, true);
-	gpuBlur.setBackgroundColor(ofColor(0,0));
+	gpuBlur.setBackgroundColor(ofColor(0,255));
 
 	OFX_REMOTEUI_SERVER_LOAD_FROM_XML();
 }
@@ -127,41 +137,59 @@ void testApp::setup(){
 
 void testApp::update(){
 
+	TIME_SAMPLE_START("update");
 	float dt = globalSpeed * 1.0 / 60.0;
 
 	cam.setFov(fov);
-	stars.update(dt);
+	if(drawStars) stars.update(dt);
 	earth.longitudeSpeed = earthOrbitSpeed;
 	moon.longitudeSpeed = moonOrbitSpeed;
+
+	stars.setSpeed(starsSpeed);
 
 	for(int i = 0; i < planets.size(); i++){
 		planets[i]->update(dt);
 	}
 
-	earth.rotate( dt * earthRotationSpeed * ofGetElapsedTimef(), ofVec3f(0,1,0));
+	earthRotation += dt * earthRotationSpeed;
+	earth.rotate( earthRotation, ofVec3f(0,1,0));
 
-	for(int i = 0; i < NUM_SATELLITES; i++){
-		satellites[i]->update(dt);
+
+	if(drawSatellites || drawSatelliteTrails){
+		for(int i = 0; i < NUM_SATELLITES; i++){
+			satellites[i]->update(dt);
+		}
 	}
 
 	sunLight.setDiffuseColor(sunLightColor);
-	sunLight.setAmbientColor(ofColor(0));
+	sunLight.setAmbientColor(sunLightAmbientColor);
+	ofSetGlobalAmbientColor(sunLightAmbientColor);
 	sunLight.setSpecularColor(ofColor(0));
 	sunLight.setAttenuation(k_attenuation, l_attenuation, q_attenuation);
 
+	TIME_SAMPLE_SET_ENABLED(timeSample);
+
 	glFogi(GL_FOG_START, fogStart );
 	glFogi(GL_FOG_END, fogEnd );
+	TIME_SAMPLE_STOP("update");
 }
 
 
 void testApp::draw(){
 
+	//point camera at target
+	int targetID = camTarget;
+	if (targetID >= 0 && targetID < NUM_CAMERA_TARGETS){
+		cam.lookAt(planets[targetID]->getGlobalPosition());
+	}
+
+	TIME_SAMPLE_START("draw");
 	ofSetColor(255);
 	gpuBlur.beginDrawScene();
-	ofClear(0, 0, 0, 0);
+	ofClear(0, 0, 0, 255);
 	cam.begin();
 
-		glDisable(GL_DEPTH_TEST);
+		ofDisableDepthTest();
 		glDisable(GL_FOG);
 		ofEnableBlendMode(OF_BLENDMODE_ADD);
 		if(drawStars){
@@ -170,12 +198,11 @@ void testApp::draw(){
 		}
 		ofEnableAlphaBlending();
 		if(fog)glEnable(GL_FOG);
-		glEnable(GL_DEPTH_TEST);
+		ofEnableDepthTest();
 
 		//no lighting
-		ofSetColor(sunColor);
-		sun.draw();
 		ofSetColor(255);
+		TIME_SAMPLE_START("drawTrails");
 		if(drawPlanetTrails){
 			for(int i = 0; i < planets.size(); i++){
 				planets[i]->drawTrails();
@@ -186,33 +213,48 @@ void testApp::draw(){
 				satellites[i]->drawTrails();
 			}
 		}
+		TIME_SAMPLE_STOP("drawTrails");
+		ofSetColor(sunColor);
+		sun.draw();
 
+		//lighting
 		ofEnableLighting();
+			TIME_SAMPLE_START("drawPlanets");
 			sunLight.enable();
 			for(int i = 1; i < planets.size(); i++){ //skip the sun [0]
 				ofSetColor(255);
 				planets[i]->draw();
 			}
+			TIME_SAMPLE_STOP("drawPlanets");
+			TIME_SAMPLE_START("drawSatellites");
 			if(drawSatellites){
 				for(int i = 0; i < NUM_SATELLITES; i++){
 					satellites[i]->draw();
 				}
 			}
+			TIME_SAMPLE_STOP("drawSatellites");
 		ofDisableLighting();
-		sunLight.draw();
-
+		//sunLight.draw();
 	cam.end();
 	gpuBlur.endDrawScene();
 
+	TIME_SAMPLE_START("performBlur");
 	gpuBlur.performBlur();
+	TIME_SAMPLE_STOP("performBlur");
 
 	//draw the "clean" scene
-	ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+	ofEnableBlendMode(OF_BLENDMODE_DISABLED);
 	gpuBlur.drawSceneFBO();
 
 	//overlay the blur on top
 	ofEnableBlendMode(OF_BLENDMODE_ADD);
 	gpuBlur.drawBlurFbo();
+
+	ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+
+	TIME_SAMPLE_STOP("draw");
+	
+	TIME_SAMPLE_DRAW_BOTTOM_RIGHT();
 
 }
 

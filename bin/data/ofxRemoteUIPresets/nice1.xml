@@ -1,41 +1,34 @@
 <OFX_REMOTE_UI_PARAMS>
     <REMOTEUI_PARAM_ENUM paramName="camTarget">3</REMOTEUI_PARAM_ENUM>
     <REMOTEUI_PARAM_BOOL paramName="drawPlanetTrails">1</REMOTEUI_PARAM_BOOL>
-    <REMOTEUI_PARAM_BOOL paramName="drawSatelliteTrails">1</REMOTEUI_PARAM_BOOL>
+    <REMOTEUI_PARAM_BOOL paramName="drawSatelliteTrails">0</REMOTEUI_PARAM_BOOL>
     <REMOTEUI_PARAM_BOOL paramName="drawSatellites">1</REMOTEUI_PARAM_BOOL>
-    <REMOTEUI_PARAM_BOOL paramName="drawStars">0</REMOTEUI_PARAM_BOOL>
-    <REMOTEUI_PARAM_FLOAT paramName="earthOrbitSpeed">0.000000000</REMOTEUI_PARAM_FLOAT>
-    <REMOTEUI_PARAM_FLOAT paramName="earthRotationSpeed">-1.265545249</REMOTEUI_PARAM_FLOAT>
+    <REMOTEUI_PARAM_BOOL paramName="drawStars">1</REMOTEUI_PARAM_BOOL>
+    <REMOTEUI_PARAM_FLOAT paramName="earthOrbitSpeed">2.358667612</REMOTEUI_PARAM_FLOAT>
+    <REMOTEUI_PARAM_FLOAT paramName="earthRotationSpeed">10.000000000</REMOTEUI_PARAM_FLOAT>
     <REMOTEUI_PARAM_BOOL paramName="fog">0</REMOTEUI_PARAM_BOOL>
     <REMOTEUI_PARAM_FLOAT paramName="fogEnd">10000.000000000</REMOTEUI_PARAM_FLOAT>
-    <REMOTEUI_PARAM_FLOAT paramName="fogStart">554.209167480</REMOTEUI_PARAM_FLOAT>
-    <REMOTEUI_PARAM_FLOAT paramName="fov">16.787307739</REMOTEUI_PARAM_FLOAT>
+    <REMOTEUI_PARAM_FLOAT paramName="fogStart">0.000000000</REMOTEUI_PARAM_FLOAT>
+    <REMOTEUI_PARAM_FLOAT paramName="fov">25.941181183</REMOTEUI_PARAM_FLOAT>
     <REMOTEUI_PARAM_FLOAT paramName="globalSpeed">1.000000000</REMOTEUI_PARAM_FLOAT>
-    <REMOTEUI_PARAM_FLOAT paramName="gpuBlur.blurOffset">2.261439800</REMOTEUI_PARAM_FLOAT>
+    <REMOTEUI_PARAM_FLOAT paramName="gpuBlur.blurOffset">4.237360954</REMOTEUI_PARAM_FLOAT>
     <REMOTEUI_PARAM_INT paramName="gpuBlur.blurOverlayGain">255</REMOTEUI_PARAM_INT>
     <REMOTEUI_PARAM_INT paramName="gpuBlur.blurPasses">2</REMOTEUI_PARAM_INT>
     <REMOTEUI_PARAM_INT paramName="gpuBlur.numBlurOverlays">2</REMOTEUI_PARAM_INT>
-    <REMOTEUI_PARAM_FLOAT paramName="k_attenuation">1.163235426</REMOTEUI_PARAM_FLOAT>
+    <REMOTEUI_PARAM_FLOAT paramName="k_attenuation">0.430188566</REMOTEUI_PARAM_FLOAT>
     <REMOTEUI_PARAM_FLOAT paramName="l_attenuation">0.000000000</REMOTEUI_PARAM_FLOAT>
-    <REMOTEUI_PARAM_FLOAT paramName="moonOrbitSpeed">0.000000000</REMOTEUI_PARAM_FLOAT>
+    <REMOTEUI_PARAM_FLOAT paramName="moonOrbitSpeed">11.309670448</REMOTEUI_PARAM_FLOAT>
     <REMOTEUI_PARAM_FLOAT paramName="q_attenuation">0.000000000</REMOTEUI_PARAM_FLOAT>
     <REMOTEUI_PARAM_COLOR paramName="starsColor">
-        <R>29</R>
-        <G>29</G>
-        <B>29</B>
+        <R>102</R>
+        <G>102</G>
+        <B>102</B>
         <A>255</A>
     </REMOTEUI_PARAM_COLOR>
-    <REMOTEUI_PARAM_FLOAT paramName="starsSpeed">1.000000000</REMOTEUI_PARAM_FLOAT>
     <REMOTEUI_PARAM_COLOR paramName="sunColor">
-        <R>255</R>
-        <G>98</G>
-        <B>11</B>
-        <A>255</A>
-    </REMOTEUI_PARAM_COLOR>
-    <REMOTEUI_PARAM_COLOR paramName="sunLightAmbientColor">
-        <R>9</R>
-        <G>9</G>
-        <B>9</B>
+        <R>174</R>
+        <G>80</G>
+        <B>3</B>
         <A>255</A>
     </REMOTEUI_PARAM_COLOR>
     <REMOTEUI_PARAM_COLOR paramName="sunLightColor">
