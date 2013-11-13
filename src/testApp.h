@@ -8,7 +8,7 @@
 #include "ofxFboBlur.h"
 #include "ofxTimeMeasurements.h"
 
-#define NUM_SATELLITES	90
+#define NUM_SATELLITES	10
 
 
 class testApp : public ofBaseApp{

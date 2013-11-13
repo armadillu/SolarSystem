@@ -11,8 +11,8 @@ int main( ){
 	win.setNumSamples(8);
 	win.setMultiDisplayFullscreen(true);
 
-	//ofSetupOpenGL(&win, 1024,690, OF_WINDOW);
-	ofSetupOpenGL(&win, 1024,690, OF_FULLSCREEN);
+	ofSetupOpenGL(&win, 1024,690, OF_WINDOW);
+	//ofSetupOpenGL(&win, 1024,690, OF_FULLSCREEN);
 
 	// this kicks off the running of my app
 	// can be OF_WINDOW or OF_FULLSCREEN

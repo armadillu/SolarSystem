@@ -1,7 +1,7 @@
 <OFX_REMOTE_UI_PARAMS>
     <REMOTEUI_PARAM_ENUM paramName="camTarget">3</REMOTEUI_PARAM_ENUM>
     <REMOTEUI_PARAM_BOOL paramName="drawPlanetTrails">1</REMOTEUI_PARAM_BOOL>
-    <REMOTEUI_PARAM_BOOL paramName="drawSatelliteTrails">1</REMOTEUI_PARAM_BOOL>
+    <REMOTEUI_PARAM_BOOL paramName="drawSatelliteTrails">0</REMOTEUI_PARAM_BOOL>
     <REMOTEUI_PARAM_BOOL paramName="drawSatellites">1</REMOTEUI_PARAM_BOOL>
     <REMOTEUI_PARAM_BOOL paramName="drawStars">0</REMOTEUI_PARAM_BOOL>
     <REMOTEUI_PARAM_FLOAT paramName="earthOrbitSpeed">0.000000000</REMOTEUI_PARAM_FLOAT>

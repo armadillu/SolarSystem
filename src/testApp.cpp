@@ -189,6 +189,7 @@ void testApp::draw(){
 	ofClear(0, 0, 0, 255);
 	cam.begin();
 
+		TIME_SAMPLE_START("drawStars");
 		ofDisableDepthTest();
 		glDisable(GL_FOG);
 		ofEnableBlendMode(OF_BLENDMODE_ADD);
@@ -199,6 +200,7 @@ void testApp::draw(){
 		ofEnableAlphaBlending();
 		if(fog)glEnable(GL_FOG);
 		ofEnableDepthTest();
+		TIME_SAMPLE_STOP("drawStars");
 
 		//no lighting
 		ofSetColor(255);
@@ -214,6 +216,7 @@ void testApp::draw(){
 			}
 		}
 		TIME_SAMPLE_STOP("drawTrails");
+
 		ofSetColor(sunColor);
 		sun.draw();
 
@@ -226,6 +229,7 @@ void testApp::draw(){
 				planets[i]->draw();
 			}
 			TIME_SAMPLE_STOP("drawPlanets");
+
 			TIME_SAMPLE_START("drawSatellites");
 			if(drawSatellites){
 				for(int i = 0; i < NUM_SATELLITES; i++){
@@ -243,12 +247,16 @@ void testApp::draw(){
 	TIME_SAMPLE_STOP("performBlur");
 
 	//draw the "clean" scene
+	TIME_SAMPLE_START("drawSceneFBO");
 	ofEnableBlendMode(OF_BLENDMODE_DISABLED);
 	gpuBlur.drawSceneFBO();
+	TIME_SAMPLE_STOP("drawSceneFBO");
 
 	//overlay the blur on top
 	ofEnableBlendMode(OF_BLENDMODE_ADD);
+	TIME_SAMPLE_START("drawBlurFBO");
 	gpuBlur.drawBlurFbo();
+	TIME_SAMPLE_STOP("drawBlurFBO");
 
 	ofEnableBlendMode(OF_BLENDMODE_ALPHA);
 
