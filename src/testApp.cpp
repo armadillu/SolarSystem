@@ -24,10 +24,9 @@ void testApp::setup(){
 	OFX_REMOTEUI_SERVER_SHARE_COLOR_PARAM(sunLightColor);
 	OFX_REMOTEUI_SERVER_SHARE_COLOR_PARAM(sunLightAmbientColor);
 
-
 	OFX_REMOTEUI_SERVER_SET_UPCOMING_PARAM_GROUP("CAMERA");
 	OFX_REMOTEUI_SERVER_SET_NEW_COLOR();
-	OFX_REMOTEUI_SERVER_SHARE_PARAM(fov, 10, 120);
+	OFX_REMOTEUI_SERVER_SHARE_PARAM(fov, 3, 120);
 	vector<string> l; l.push_back("SUN"); l.push_back("MERCURY"); l.push_back("VENUS");
 	l.push_back("EARTH"); l.push_back("MOON"); l.push_back("MARS");
 	l.push_back("JUPITER"); l.push_back("SATURN"); l.push_back("NONE");
@@ -43,6 +42,7 @@ void testApp::setup(){
 	OFX_REMOTEUI_SERVER_SET_NEW_COLOR();
 	OFX_REMOTEUI_SERVER_SHARE_PARAM(drawStars);
 	OFX_REMOTEUI_SERVER_SHARE_COLOR_PARAM(starsColor);
+	OFX_REMOTEUI_SERVER_SHARE_COLOR_PARAM(planetsColor);
 	OFX_REMOTEUI_SERVER_SHARE_PARAM(drawSatellites);
 	OFX_REMOTEUI_SERVER_SHARE_PARAM(drawSatelliteTrails);
 	OFX_REMOTEUI_SERVER_SHARE_PARAM(drawPlanetTrails);
@@ -57,6 +57,8 @@ void testApp::setup(){
 	OFX_REMOTEUI_SERVER_SHARE_PARAM(earthOrbitSpeed, 0.0, 5.0);
 	OFX_REMOTEUI_SERVER_SHARE_PARAM(moonOrbitSpeed, -50.0, 50.0);
 	OFX_REMOTEUI_SERVER_SHARE_PARAM(starsSpeed, -1, 1);
+	OFX_REMOTEUI_SERVER_SHARE_PARAM(starsPointSize, 0, 8);
+
 
 	OFX_REMOTEUI_SERVER_SET_UPCOMING_PARAM_GROUP("BLUR OVERLAY");
 	OFX_REMOTEUI_SERVER_SET_NEW_COLOR();
@@ -64,6 +66,13 @@ void testApp::setup(){
 	OFX_REMOTEUI_SERVER_SHARE_PARAM(gpuBlur.blurOffset, 0.0, 10);
 	OFX_REMOTEUI_SERVER_SHARE_PARAM(gpuBlur.blurOverlayGain, 0, 255);
 	OFX_REMOTEUI_SERVER_SHARE_PARAM(gpuBlur.numBlurOverlays, 0, 7);
+
+	OFX_REMOTEUI_SERVER_SET_NEW_COLOR();
+	OFX_REMOTEUI_SERVER_SHARE_PARAM(calcDOF);
+	OFX_REMOTEUI_SERVER_SHARE_PARAM(blur, 0, 4);
+	OFX_REMOTEUI_SERVER_SHARE_PARAM(focalRange, 0, 1000);
+	OFX_REMOTEUI_SERVER_SHARE_PARAM(focalDistance, 0, 1200);
+	OFX_REMOTEUI_SERVER_SHARE_PARAM(drawFocus);
 
 	OFX_REMOTEUI_SERVER_SET_NEW_COLOR();
 
@@ -79,11 +88,11 @@ void testApp::setup(){
 	sun.setup("sun.jpg", NULL, 0, 250);
 	mercury.setup("mercury.jpg", &sun,  350, 7);
 	venus.setup("venus.jpg", &sun,  600, 11);
-	earth.setup("earth.jpg", &sun,  1000, 40);
+	earth.setup("earth2.jpg", &sun,  1000, 40);
 
 	mars.setup("mars.jpg", &sun,  2000, 40);
 	jupiter.setup("jupiter.jpg", &sun,  4000, 30);
-	saturn.setup("saturn.jpg", &sun,  8000, 120);
+	saturn.setup("saturn.jpg", &sun,  8000, 90);
 
 	earth.setTrailColor(ofColor(46,64,180, 128));
 	moon.setTrailColor(ofColor(255, 32));
@@ -105,8 +114,9 @@ void testApp::setup(){
 	stars.setup();
 
 	cam.setDistance(2000);
-	cam.setFarClip(100000000);
+	cam.setFarClip(1000000);
 	cam.setVFlip(true);
+	cam.setDrag(0.9999);
 
 	sunLight.setPointLight();
 	sunLight.enable();
@@ -131,6 +141,7 @@ void testApp::setup(){
 	gpuBlur.setup(s, true);
 	gpuBlur.setBackgroundColor(ofColor(0,255));
 
+	dof.setup();
 	OFX_REMOTEUI_SERVER_LOAD_FROM_XML();
 }
 
@@ -140,12 +151,17 @@ void testApp::update(){
 	TIME_SAMPLE_START("update");
 	float dt = globalSpeed * 1.0 / 60.0;
 
+	dof.setFocalRange(focalRange);
+	dof.setFocalDistance(focalDistance);
+	dof.setBlurAmount(blur);
+
 	cam.setFov(fov);
 	if(drawStars) stars.update(dt);
 	earth.longitudeSpeed = earthOrbitSpeed;
 	moon.longitudeSpeed = moonOrbitSpeed;
 
 	stars.setSpeed(starsSpeed);
+	stars.setPointSize(starsPointSize);
 
 	for(int i = 0; i < planets.size(); i++){
 		planets[i]->update(dt);
@@ -185,12 +201,15 @@ void testApp::draw(){
 
 	TIME_SAMPLE_START("draw");
 	ofSetColor(255);
-	gpuBlur.beginDrawScene();
-	ofClear(0, 0, 0, 255);
+	ofEnableDepthTest();
+	ofSetLineWidth(1.5);
+
+	if(calcDOF)dof.begin();
 	cam.begin();
 
+		ofClear(0, 0, 0, 255);
 		TIME_SAMPLE_START("drawStars");
-		ofDisableDepthTest();
+		//ofDisableDepthTest();
 		glDisable(GL_FOG);
 		ofEnableBlendMode(OF_BLENDMODE_ADD);
 		if(drawStars){
@@ -199,12 +218,14 @@ void testApp::draw(){
 		}
 		ofEnableAlphaBlending();
 		if(fog)glEnable(GL_FOG);
-		ofEnableDepthTest();
+		//ofEnableDepthTest();
 		TIME_SAMPLE_STOP("drawStars");
 
 		//no lighting
 		ofSetColor(255);
 		TIME_SAMPLE_START("drawTrails");
+		ofEnableBlendMode(OF_BLENDMODE_ADD);
+		glPointSize(2);
 		if(drawPlanetTrails){
 			for(int i = 0; i < planets.size(); i++){
 				planets[i]->drawTrails();
@@ -215,6 +236,7 @@ void testApp::draw(){
 				satellites[i]->drawTrails();
 			}
 		}
+		ofEnableAlphaBlending();
 		TIME_SAMPLE_STOP("drawTrails");
 
 		ofSetColor(sunColor);
@@ -225,7 +247,7 @@ void testApp::draw(){
 			TIME_SAMPLE_START("drawPlanets");
 			sunLight.enable();
 			for(int i = 1; i < planets.size(); i++){ //skip the sun [0]
-				ofSetColor(255);
+				ofSetColor(planetsColor);
 				planets[i]->draw();
 			}
 			TIME_SAMPLE_STOP("drawPlanets");
@@ -240,6 +262,18 @@ void testApp::draw(){
 		ofDisableLighting();
 		//sunLight.draw();
 	cam.end();
+	if(calcDOF)dof.end();
+
+
+	gpuBlur.beginDrawScene();
+	ofClear(0, 255);
+	if(calcDOF){
+		if(drawFocus){
+			dof.drawFocusAssist(0, 0);
+		}else{
+			dof.getFbo().draw(0,0);
+		}
+	}
 	gpuBlur.endDrawScene();
 
 	TIME_SAMPLE_START("performBlur");
@@ -259,6 +293,7 @@ void testApp::draw(){
 	TIME_SAMPLE_STOP("drawBlurFBO");
 
 	ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+
 
 	TIME_SAMPLE_STOP("draw");
 	

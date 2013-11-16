@@ -27,6 +27,7 @@
 		BB0CFC0918317DD10003400B /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BB0CFC0318317DD10003400B /* tinyxmlerror.cpp */; };
 		BB0CFC0A18317DD10003400B /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BB0CFC0418317DD10003400B /* tinyxmlparser.cpp */; };
 		BB0CFC0B18317DD10003400B /* ofxXmlSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BB0CFC0618317DD10003400B /* ofxXmlSettings.cpp */; };
+		BB611ED21836809600B94B6E /* ofxDOF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BB611ED01836809600B94B6E /* ofxDOF.cpp */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
 		BBC3F6C91833857E000DBA19 /* ofxTimeMeasurements.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BBC3F6C71833857E000DBA19 /* ofxTimeMeasurements.cpp */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
@@ -129,6 +130,9 @@
 		BB0CFC0418317DD10003400B /* tinyxmlparser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlparser.cpp; sourceTree = "<group>"; };
 		BB0CFC0618317DD10003400B /* ofxXmlSettings.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxXmlSettings.cpp; sourceTree = "<group>"; };
 		BB0CFC0718317DD10003400B /* ofxXmlSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxXmlSettings.h; sourceTree = "<group>"; };
+		BB5973381836A20400564426 /* FakeStars2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeStars2.h; sourceTree = "<group>"; };
+		BB611ED01836809600B94B6E /* ofxDOF.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxDOF.cpp; sourceTree = "<group>"; };
+		BB611ED11836809600B94B6E /* ofxDOF.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxDOF.h; sourceTree = "<group>"; };
 		BB84C2F01832C477001929E7 /* FakeStars.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FakeStars.h; sourceTree = "<group>"; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
 		BBB999E21832E14D004258CD /* ofxFboBlur.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxFboBlur.h; sourceTree = "<group>"; };
@@ -344,6 +348,7 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				BB611ECE1836809600B94B6E /* ofxDOF */,
 				BBC3F6C51833857E000DBA19 /* ofxTimeMeasurements */,
 				BBB999E01832E14D004258CD /* ofxFboBlur */,
 				BB0CFBFF18317DD10003400B /* ofxXmlSettings */,
@@ -351,6 +356,24 @@
 				BB0CF9E318317DB60003400B /* ofxRemoteUI */,
 			);
 			name = addons;
+			sourceTree = "<group>";
+		};
+		BB611ECE1836809600B94B6E /* ofxDOF */ = {
+			isa = PBXGroup;
+			children = (
+				BB611ECF1836809600B94B6E /* src */,
+			);
+			name = ofxDOF;
+			sourceTree = "<group>";
+		};
+		BB611ECF1836809600B94B6E /* src */ = {
+			isa = PBXGroup;
+			children = (
+				BB611ED01836809600B94B6E /* ofxDOF.cpp */,
+				BB611ED11836809600B94B6E /* ofxDOF.h */,
+			);
+			name = src;
+			path = ../../../addons/ofxDOF/src;
 			sourceTree = "<group>";
 		};
 		BBAB23C913894ECA00AA2426 /* system frameworks */ = {
@@ -457,6 +480,7 @@
 				BBBEEC4918317659000AC606 /* Satellite.h */,
 				BBC9E9561832A49500AB0602 /* Planet.h */,
 				BB84C2F01832C477001929E7 /* FakeStars.h */,
+				BB5973381836A20400564426 /* FakeStars2.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -567,6 +591,7 @@
 				BB0CFC0B18317DD10003400B /* ofxXmlSettings.cpp in Sources */,
 				BB0CFBF318317DC30003400B /* IpEndpointName.cpp in Sources */,
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
+				BB611ED21836809600B94B6E /* ofxDOF.cpp in Sources */,
 				BB0CFC0918317DD10003400B /* tinyxmlerror.cpp in Sources */,
 				BB0CFBC418317DB70003400B /* ofxRemoteUI.cpp in Sources */,
 				BB0CFC0A18317DD10003400B /* tinyxmlparser.cpp in Sources */,

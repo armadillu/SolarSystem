@@ -5,10 +5,13 @@
 #include "Planet.h"
 #include "ofxRemoteUIServer.h"
 #include "FakeStars.h"
+#include "FakeStars2.h"
+
 #include "ofxFboBlur.h"
 #include "ofxTimeMeasurements.h"
+#include "ofxDOF.h"
 
-#define NUM_SATELLITES	10
+#define NUM_SATELLITES	40
 
 
 class testApp : public ofBaseApp{
@@ -55,8 +58,9 @@ public:
 	ofColor				sunLightColor;
 	ofColor				sunLightAmbientColor;
 	ofColor				sunColor;
-	FakeStars			stars;
+	FakeStars2			stars;
 	ofColor				starsColor;
+	ofColor				planetsColor;
 
 
 	float				k_attenuation;
@@ -68,6 +72,7 @@ public:
 	float				earthOrbitSpeed;
 	float				moonOrbitSpeed;
 	float				starsSpeed;
+	float				starsPointSize;
 	bool				fog;
 	bool				drawStars;
 	bool				drawSatellites;
@@ -84,6 +89,14 @@ public:
 	float				globalSpeed;
 
 	ofxFboBlur			gpuBlur;
+	ofxDOF				dof;
+	float blur;
+	float focalRange;
+	float focalDistance;
+	bool drawFocus;
+	bool calcDOF;
+
+
 
 	CameraTarget		camTarget;
 

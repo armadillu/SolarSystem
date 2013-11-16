@@ -21,7 +21,7 @@ public:
 		parent = parent_;
 		cout << textureName << " " << oribtDist_ << endl;
 		oribtDist = oribtDist_;
-		sphere.set(radius, 30);
+		sphere.set(radius, 40);
 		sphere.setParent(*this);
 		ofLoadImage(tex, textureName);
 		sphere.mapTexCoordsFromTexture(tex);
