@@ -10,6 +10,7 @@
 #define emptyExample_Planet_h
 
 #include "ofMain.h"
+#include "ofxAutoReloadedShader.h"
 #define MAX_PLANET_TRAIL	500
 
 class Planet : public ofNode{
@@ -18,6 +19,7 @@ public:
 
 	void setup(string textureName, ofNode * parent_, float oribtDist_ = 1000, float radius = 600){
 
+		shader = NULL;
 		parent = parent_;
 		cout << textureName << " " << oribtDist_ << endl;
 		oribtDist = oribtDist_;
@@ -29,6 +31,28 @@ public:
 		latitude = ofRandom(0,0);
 		longitudeSpeed = ofRandom(-30,30);
 		latitudeSpeed = ofRandom(-0,0);
+	}
+
+
+	//bad coding! call this for earth only
+	void setupAsEarth(){
+		cout << "setupAsEarth()" << endl;
+		GLuint err = glGetError();	// we need this to clear out the error buffer.
+		shader = new ofxAutoReloadedShader();
+		shader->setMillisBetweenFileCheck(500);
+		shader->load("shaders/earth");
+		err = glGetError();	// we need this to clear out the error buffer.
+		ofLogNotice() << "Loaded Shader: " << err;
+
+		ofDisableArbTex();
+		bool ok = ofLoadImage(earthColor, "EarthMaps/color.jpg");
+		ofLoadImage(earthBump, "EarthMaps/bump.jpg");
+		ofLoadImage(earthSpecular, "EarthMaps/specular.jpg");
+		ofLoadImage(earthNormal, "EarthMaps/normal.jpg");
+		ofLoadImage(earthNightLights, "EarthMaps/nightLights.jpg");
+		ofEnableArbTex();
+		sphere.mapTexCoordsFromTexture(earthColor); //recalc tex coords
+		
 	}
 
 	void update(float dt){
@@ -56,6 +80,7 @@ public:
 
 
 	void draw(){
+		if(shader==NULL){ //normal drawing
 		//ofPushStyle();
 			//ofSetColor(255); //wont work with the programmable renderer
 			tex.bind();
@@ -65,6 +90,19 @@ public:
 			tex.unbind();
 		//ofPopStyle();
 		//ofDrawBitmapString( ofToString(getGlobalPosition()), getGlobalPosition() );
+		}else{ //shader
+			shader->begin();
+
+			shader->setUniformTexture("earthColor", earthColor, earthColor.getTextureData().textureID);
+			shader->setUniformTexture("earthBump", earthBump, earthBump.getTextureData().textureID);
+			shader->setUniformTexture("earthSpecular", earthSpecular, earthSpecular.getTextureData().textureID);
+			shader->setUniformTexture("earthNormal", earthNormal, earthNormal.getTextureData().textureID);
+			shader->setUniformTexture("earthNightLights", earthNightLights, earthNightLights.getTextureData().textureID);
+
+			sphere.draw();
+
+			shader->end();
+		}
 	}
 
 	void drawTrails(){
@@ -96,6 +134,15 @@ public:
 	ofNode*				parent;
 	vector<ofVec3f>		trails;
 	ofColor				trailColor;
+
+	ofTexture			earthColor;
+	ofTexture			earthBump;
+	ofTexture			earthSpecular;
+	ofTexture			earthNormal;
+	ofTexture			earthNightLights;
+
+	//only for earth
+	ofxAutoReloadedShader*   shader;
 
 };
 

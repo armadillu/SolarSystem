@@ -111,6 +111,8 @@ void testApp::setup(){
 	planets.push_back(&jupiter);
 	planets.push_back(&saturn);
 
+	earth.setupAsEarth();
+
 	stars.setup();
 
 	cam.setDistance(2000);
@@ -276,6 +278,8 @@ void testApp::draw(){
 	}
 	gpuBlur.endDrawScene();
 
+	//earth.draw();
+
 	TIME_SAMPLE_START("performBlur");
 	gpuBlur.performBlur();
 	TIME_SAMPLE_STOP("performBlur");
@@ -297,7 +301,7 @@ void testApp::draw(){
 
 	TIME_SAMPLE_STOP("draw");
 	
-	TIME_SAMPLE_DRAW_BOTTOM_RIGHT();
+	//TIME_SAMPLE_DRAW_BOTTOM_RIGHT();
 
 }
 
